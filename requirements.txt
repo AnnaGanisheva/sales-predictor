@@ -1,1 +1,8 @@
 dvc
+dvc_s3
+pandas
+seaborn
+matplotlib
+pytest
+numpy
+scikit-learn
