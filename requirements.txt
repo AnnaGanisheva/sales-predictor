@@ -4,5 +4,8 @@ pandas
 seaborn
 matplotlib
 pytest
+black
+flake8
+isort
 numpy
 scikit-learn
