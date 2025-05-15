@@ -32,6 +32,11 @@ jobs:
 
       - name: Check import order with isort
         run: isort --check-only src/ tests/
+      
+      - name: Check coverage
+        run: |
+          coverage run -m pytest
+          coverage report -m
 
       - name: Run tests
         run: |

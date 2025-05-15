@@ -1,3 +1,4 @@
+import mlflow
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import root_mean_squared_error
 
@@ -40,3 +41,20 @@ def save_model(model, filename):
 
     with open("model.pkl", "wb") as f:
         pickle.dump(model, f)
+
+
+def track_experiment(X_train, y_train):
+    """
+    Track the experiment using MLflow.
+    """
+    with mlflow.start_run():
+        mlflow.log_param("model_type", "RandomForest")
+        mlflow.log_param("n_samples", len(X_train))
+        mlflow.log_param("n_estimators", 100)
+        mlflow.log_param("random_state", 42)
+        model = RandomForestRegressor(n_estimators=100, random_state=42)
+        model.fit(X_train, y_train)
+        mlflow.sklearn.log_model(model, "model")
+        rmse = evaluate_model(model, X_train, y_train)
+        mlflow.log_metric("rmse", rmse)
+        return model
