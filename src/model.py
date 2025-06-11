@@ -1,6 +1,12 @@
 import mlflow
+import os
+from dotenv import load_dotenv
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import root_mean_squared_error
+
+load_dotenv()
+
+mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI"))
 
 
 def train_model(X_train, y_train):
@@ -44,6 +50,8 @@ def save_model(model, filename):
 
 
 def track_experiment(X_train, y_train):
+
+    mlflow.set_experiment("sales-predictor-experiment")
     """
     Track the experiment using MLflow.
     """
@@ -58,3 +66,5 @@ def track_experiment(X_train, y_train):
         rmse = evaluate_model(model, X_train, y_train)
         mlflow.log_metric("rmse", rmse)
         return model
+
+
