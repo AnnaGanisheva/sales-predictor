@@ -1,0 +1,5 @@
+data_paths:
+  raw_data_dir: data/raw
+  train_file: train.csv
+  store_file: store.csv
+  processed_file: data/processed/data.csv

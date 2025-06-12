@@ -18,6 +18,9 @@ This repository contains a pet project designed to demonstrate a **complete mach
 - **Dataset:** Historical sales data from Rossmann drugstores.
 - **Prediction target:** Weekly total sales for each store.
 - **Prediction horizon:** 7 days ahead.
+
+TODO
+кращий вибір: XGBoost або LightGBM.
 - **Model:** Tree-based regressors (e.g., Random Forest) with feature engineering.
 
 ---
