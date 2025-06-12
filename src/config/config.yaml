@@ -3,3 +3,7 @@ data_paths:
   train_file: train.csv
   store_file: store.csv
   processed_file: data/processed/data.csv
+
+data_transformation:
+  input_data_path: data/processed/data.csv
+  output_data_path: data/transformed/transformed_data.csv

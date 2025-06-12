@@ -25,6 +25,17 @@ TODO
 
 ---
 
+## 🛠️ Data Transformation
+
+In this step, the preprocessed raw data is loaded and transformed to be ready for training. The following actions are applied:
+
+- Columns with missing values are dropped
+- The `StateHoliday` column is cast to string type to avoid dtype issues
+- Categorical variables (`StateHoliday`, `StoreType`, `Assortment`) are cast to `category` dtype for compatibility with LightGBM/XGBoost
+- The `Date` column is excluded from categorical processing
+
+---
+
 ## 🎯 Project Objectives
 
 - Practice structuring an ML project for production use

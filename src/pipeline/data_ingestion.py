@@ -7,6 +7,12 @@ from src.utils.logger import logger
 
 
 def ingest_data():
+    """
+    This function is responsible for ingesting raw data from CSV files,
+    merging them, and saving the processed data to a specified output path.
+    It reads configuration settings from a YAML file to determine file paths.
+    """
+
     config = read_yaml(Path("src/config/config.yaml"))
     raw_dir = Path(config.data_paths.raw_data_dir)
 
@@ -16,7 +22,7 @@ def ingest_data():
 
     # load raw data
     logger.info(f"Loading data from {train_path} and {store_path}")
-    train_df = pd.read_csv(train_path, dtype={"StateHoliday": str})
+    train_df = pd.read_csv(train_path, low_memory=False)
     store_df = pd.read_csv(store_path)
 
     # merge
