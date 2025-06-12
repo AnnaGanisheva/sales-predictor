@@ -66,5 +66,3 @@ def track_experiment(X_train, y_train):
         rmse = evaluate_model(model, X_train, y_train)
         mlflow.log_metric("rmse", rmse)
         return model
-
-
