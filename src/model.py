@@ -1,5 +1,6 @@
-import mlflow
 import os
+
+import mlflow
 from dotenv import load_dotenv
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import root_mean_squared_error

@@ -1,6 +1,8 @@
 from pathlib import Path
-from box import ConfigBox
+
 import yaml
+from box import ConfigBox
+
 from src.utils.logger import logger
 
 
