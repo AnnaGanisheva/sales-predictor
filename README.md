@@ -36,6 +36,34 @@ In this step, the preprocessed raw data is loaded and transformed to be ready fo
 
 ---
 
+## 🧠 Model Training
+
+Two machine learning models were trained and evaluated: **XGBoost** and **LightGBM**.  
+Hyperparameter optimization was performed using [Optuna](https://optuna.org/) with **Root Mean Squared Error (RMSE)** as the objective metric.
+
+### 🧪 Training Procedure
+
+- Preprocessed data was used as input
+- Data was split into training and validation sets (80/20)
+- Each model was tuned using Optuna (`n_trials=30`)
+- Metrics and parameters were tracked and logged with **MLflow**
+- Best-performing models were registered in the **MLflow Model Registry**
+
+### 📊 Results
+TODO: check error values
+
+| Model     | RMSE       | MAPE       |
+|-----------|------------|------------|
+| XGBoost   | > 891.79   | > 10.54 %  |
+| LightGBM  | **~891.79** | **~10.54%** |
+
+> ⚡️ **LightGBM** achieved the best results and was selected as the final model for deployment.
+
+The final LightGBM model was logged to MLflow and registered under the name:
+``lightgbm_sales_forecaster``.
+
+---
+
 ## 🎯 Project Objectives
 
 - Practice structuring an ML project for production use

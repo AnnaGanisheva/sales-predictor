@@ -7,8 +7,7 @@ import optuna
 import pandas as pd
 import xgboost as xgb
 from dotenv import load_dotenv
-from sklearn.metrics import (mean_absolute_percentage_error,
-                             root_mean_squared_error)
+from sklearn.metrics import mean_absolute_percentage_error, root_mean_squared_error
 from sklearn.model_selection import train_test_split
 
 from src.utils.common import read_yaml
@@ -109,7 +108,7 @@ def tune_model():
     mlflow.xgboost.log_model(
         final_model,
         artifact_path="model",
-        registered_model_name="xgboost_sales_forecaster"
+        registered_model_name="xgboost_sales_forecaster",
     )
     logger.info("Final XGBoost model logged and registered in MLflow.")
 
