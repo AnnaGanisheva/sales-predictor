@@ -69,7 +69,6 @@ def handle_date_features(df):
     df["Year"] = df["Date"].dt.year
     df["Month"] = df["Date"].dt.month
     df["Day"] = df["Date"].dt.day
-    df["DayOfWeek"] = df["Date"].dt.dayofweek
     df["WeekOfYear"] = df["Date"].dt.isocalendar().week
     df["IsWeekend"] = (df["Date"].dt.dayofweek >= 5).astype(int)
 

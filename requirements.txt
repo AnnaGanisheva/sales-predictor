@@ -12,3 +12,6 @@ numpy
 scikit-learn
 mlflow
 python-dotenv
+lightgbm
+xgboost
+optuna
