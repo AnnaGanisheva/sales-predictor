@@ -2,4 +2,4 @@ venv/
 __pycache__/
 mlruns/
 .coverage
-.env
+.envdata/
