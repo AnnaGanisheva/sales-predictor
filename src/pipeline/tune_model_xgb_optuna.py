@@ -7,10 +7,11 @@ import optuna
 import pandas as pd
 import xgboost as xgb
 from dotenv import load_dotenv
-from sklearn.metrics import mean_absolute_percentage_error, root_mean_squared_error
+from sklearn.metrics import (mean_absolute_percentage_error,
+                             root_mean_squared_error)
 from sklearn.model_selection import train_test_split
 
-from src.utils.common import read_yaml, save_bin
+from src.utils.common import read_yaml
 from src.utils.logger import logger
 
 
@@ -105,11 +106,12 @@ def tune_model():
         best_params, dtrain_full, num_boost_round=study.best_trial.number
     )
 
-    # Ensure the models directory exists before saving the model
-    # TODO motion this in the config file
-    os.makedirs("models", exist_ok=True)
-    save_bin(final_model, Path("models/xgboost_best_model.joblib"))
-    logger.info("Final XGBoost model saved.")
+    mlflow.xgboost.log_model(
+        final_model,
+        artifact_path="model",
+        registered_model_name="xgboost_sales_forecaster"
+    )
+    logger.info("Final XGBoost model logged and registered in MLflow.")
 
 
 if __name__ == "__main__":

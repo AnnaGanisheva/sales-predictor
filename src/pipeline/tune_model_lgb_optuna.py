@@ -7,10 +7,11 @@ import mlflow
 import optuna
 import pandas as pd
 from dotenv import load_dotenv
-from sklearn.metrics import mean_absolute_percentage_error, root_mean_squared_error
+from sklearn.metrics import (mean_absolute_percentage_error,
+                             root_mean_squared_error)
 from sklearn.model_selection import train_test_split
 
-from src.utils.common import read_yaml, save_bin
+from src.utils.common import read_yaml
 from src.utils.logger import logger
 
 
@@ -108,10 +109,12 @@ def tune_model():
     final_model = lgb.LGBMRegressor(**best_params, n_estimators=best_iteration)
     final_model.fit(X, y)
 
-    # Ensure the models directory exists before saving the model
-    # TODO motion this in the config file
-    os.makedirs("models", exist_ok=True)
-    save_bin(final_model, Path("models/lgb_best_model.joblib"))
+    mlflow.lightgbm.log_model(
+        final_model,
+        artifact_path="model",
+        registered_model_name="lightgbm_sales_forecaster"
+    )
+    logger.info("Final LightGBM model logged and registered in MLflow.")
 
 
 if __name__ == "__main__":
