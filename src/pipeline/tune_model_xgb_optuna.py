@@ -61,7 +61,7 @@ def objective(trial, X_train, y_train, X_val, y_val):
     return rmse
 
 
-def tune_model():
+def run_optuna_xgb():
     """
     Tune XGBoost model hyperparameters using Optuna and
     log the best model to MLflow.
@@ -71,7 +71,7 @@ def tune_model():
     mlflow.set_experiment("xgboost-optuna")
 
     config = read_yaml(Path("src/config/config.yaml"))
-    output_path = Path(config.data_transformation.output_data_path)
+    output_path = Path(config.data_transformation.output_train_path)
 
     # Load data
     df = pd.read_csv(output_path)
@@ -97,7 +97,7 @@ def tune_model():
 
     # Best model with best params
     best_params = study.best_params
-    logger.info("Best params:", best_params)
+    logger.info(f"Best params: {best_params}")
 
     # Save best model
     dtrain_full = xgb.DMatrix(X, label=y)
@@ -115,5 +115,5 @@ def tune_model():
 
 if __name__ == "__main__":
     logger.info("Start tuning XGBoost model.")
-    tune_model()
+    run_optuna_xgb()
     logger.info("Done.")

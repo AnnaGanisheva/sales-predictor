@@ -5,19 +5,17 @@ import pandas as pd
 from src.utils.common import read_yaml
 from src.utils.logger import logger
 
+config = read_yaml(Path("src/config/config.yaml"))
 
-def transform_data():
+
+def transform_data(processed_data_path, output_path):
     """
     This function is responsible for transforming the data into a format
     suitable for model training. It includes feature engineering, handling
     categorical features, and saving the transformed data.
     """
 
-    config = read_yaml(Path("src/config/config.yaml"))
-    processed_data_path = Path(config.data_transformation.input_data_path)
-    output_path = Path(config.data_transformation.output_data_path)
-
-    # Load merged data and change data types for specific column
+    # Load data and change data types for specific column
     try:
         logger.info(f"Reading merged data from {processed_data_path}")
         df = pd.read_csv(processed_data_path, dtype={"StateHoliday": str})
@@ -90,5 +88,19 @@ def handle_categorical_features(df):
     return df
 
 
+def transform_train_data():
+    logger.info("Transforming training data...")
+    val_path = Path(config.data_transformation.input_val_path)
+    output_path = Path(config.data_transformation.output_train_path)
+    transform_data(val_path, output_path)
+
+
+def transform_val_data():
+    logger.info("Transforming validation data...")
+    val_path = Path(config.data_transformation.input_val_path)
+    output_path = Path(config.data_transformation.output_val_path)
+    transform_data(val_path, output_path)
+
+
 if __name__ == "__main__":
-    transform_data()
+    transform_train_data()
