@@ -25,6 +25,9 @@ TODO
 
 ---
 
+TODO
+explain data splitting
+
 ## 🛠️ Data Transformation
 
 In this step, the preprocessed raw data is loaded and transformed to be ready for training. The following actions are applied:
@@ -51,11 +54,19 @@ Hyperparameter optimization was performed using [Optuna](https://optuna.org/) wi
 
 ### 📊 Results
 TODO: check error values
+Errors on all data
 
 | Model     | RMSE       | MAPE       |
 |-----------|------------|------------|
-| XGBoost   | > 891.79   | > 10.54 %  |
-| LightGBM  | **~891.79** | **~10.54%** |
+| XGBoost   | 458.52     | 5.05       |
+| LightGBM  | 466.9      | 5.29       |
+
+Errors on splitted data
+
+| Model     | RMSE       | MAPE       |
+|-----------|------------|------------|
+| XGBoost   | 469.99     | 5.2        |
+| LightGBM  | 533.43     | 6.22       |
 
 > ⚡️ **LightGBM** achieved the best results and was selected as the final model for deployment.
 

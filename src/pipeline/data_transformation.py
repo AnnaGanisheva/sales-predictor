@@ -17,7 +17,7 @@ def transform_data(processed_data_path, output_path):
 
     # Load data and change data types for specific column
     try:
-        logger.info(f"Reading merged data from {processed_data_path}")
+        logger.info(f"Reading data from {processed_data_path}")
         df = pd.read_csv(processed_data_path, dtype={"StateHoliday": str})
         logger.info("File read successfully")
         df = drop_missing_values_columns(df)
@@ -90,7 +90,7 @@ def handle_categorical_features(df):
 
 def transform_train_data():
     logger.info("Transforming training data...")
-    val_path = Path(config.data_transformation.input_val_path)
+    val_path = Path(config.data_transformation.input_train_path)
     output_path = Path(config.data_transformation.output_train_path)
     transform_data(val_path, output_path)
 

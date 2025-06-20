@@ -7,6 +7,7 @@ import optuna
 import pandas as pd
 import xgboost as xgb
 from dotenv import load_dotenv
+from mlflow.models.signature import infer_signature
 from sklearn.metrics import mean_absolute_percentage_error, root_mean_squared_error
 from sklearn.model_selection import train_test_split
 
@@ -51,6 +52,7 @@ def objective(trial, X_train, y_train, X_val, y_val):
     # mask devide 0
     mask = y_val != 0
     mape = mean_absolute_percentage_error(y_val[mask], preds[mask]) * 100
+    logger.info(f"Trial {trial.number}: RMSE={rmse}, MAPE={mape}")
 
     # Log with MLflow
     with mlflow.start_run(nested=True):
@@ -68,7 +70,7 @@ def run_optuna_xgb():
     """
     load_dotenv()
     mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI"))
-    mlflow.set_experiment("xgboost-optuna")
+    mlflow.set_experiment("xgboost-experiment")
 
     config = read_yaml(Path("src/config/config.yaml"))
     output_path = Path(config.data_transformation.output_train_path)
@@ -99,17 +101,29 @@ def run_optuna_xgb():
     best_params = study.best_params
     logger.info(f"Best params: {best_params}")
 
-    # Save best model
+    logger.info("Train final model on all data")
     dtrain_full = xgb.DMatrix(X, label=y)
     final_model = xgb.train(
         best_params, dtrain_full, num_boost_round=study.best_trial.number
     )
 
-    mlflow.xgboost.log_model(
-        final_model,
-        artifact_path="model",
-        registered_model_name="xgboost_sales_forecaster",
-    )
+    X_sample = X.sample(n=100, random_state=42)
+    y_sample = final_model.predict(xgb.DMatrix(X_sample))
+    signature = infer_signature(X_sample, y_sample)
+    input_example = X_sample.iloc[0:1]
+
+    with mlflow.start_run():
+        mlflow.log_params(best_params)
+
+        mlflow.lightgbm.log_model(
+            final_model,
+            artifact_path="model",
+            registered_model_name="xgboost_sales_forecaster",
+            signature=signature,
+            input_example=input_example,
+        )
+    mlflow.end_run()
+
     logger.info("Final XGBoost model logged and registered in MLflow.")
 
 
